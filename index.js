@@ -57,6 +57,8 @@ function runSite() {
                 case "Update employee role":
                     updateEmployee();
                     break;
+                case "EXIT":
+                    EXIT();
             }
         })
 
