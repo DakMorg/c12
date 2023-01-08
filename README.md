@@ -15,6 +15,7 @@ Theis allows a user to set up and manage a companies employee database.
 
 ## Snips
 
+<img width="1904" alt="c12snip" src="https://user-images.githubusercontent.com/108765820/211218911-b4bc9d6d-c6c9-4fb1-a13a-0be567011551.PNG">
 
 
 ## Links
