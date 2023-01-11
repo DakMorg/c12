@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const { prompt } = require("inquirer");
 const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
@@ -14,63 +15,94 @@ connection.connect(function (err) {
     runSite();
 });
 
+//////////
+/* function init() {
+    const logoText = logo({ name: "Employee Manager" }).render();
 
+    console.log(logoText);
+
+    runSite();
+} */
 
 function runSite() {
-    inquirer
-        .prompt({
-            name: "name",
-            message: "choose an option.",
-            type: "list",
+
+    prompt([
+        {
+            type: 'list',
+            name: 'choice',
+            message: 'Please choose an option.',
             choices: [
-                "Add department",
-                "Add role",
-                "Add employee",
-                "View departments",
-                "View roles",
-                "View employees",
-                "Update employee role",
-                "EXIT"]
-        })
+                {
+                    name: 'Add department',
+                    value: 'ADD_DEPARTMENT'
+                },
 
-        .then((task) => {
+                {
+                    name: 'Add role',
+                    value: 'ADD_ROLE'
+                },
 
-            switch (task) {
-                case "Add department":
-                    addDepartment();
-                    break;
-                case "Add role":
-                    addRole();
-                    break;
-                case "Add employee":
-                    addEmployee();
-                    break;
-                case "View departments":
-                    viewDepartment();
-                    break;
-                case "View roles":
-                    viewRoles();
-                    break;
-                case "View employees":
-                    viewEmployees();
-                    break;
-                case "Update employee role":
-                    updateEmployee();
-                    break;
-                case "EXIT":
-                    EXIT();
-            }
-        })
+                {
+                    name: 'Add employee',
+                    value: 'ADD_EMPLOYEE'
+                },
 
-        .catch((error) => {
-            if (error.isTtyError) {
-                // Prompt couldn't be rendered in the current environment
-                console.log("oof, that didnt work.");
-            } else {
-                // Something else went wrong
-                console.log("Yo chill, its not working.");
-            }
-        });
+                {
+                    name: 'View departments',
+                    value: 'VIEW_DEPARTMENTS'
+                },
+
+                {
+                    name: 'View roles',
+                    value: 'VIEW_ROLES'
+                },
+
+                {
+                    name: 'View employees',
+                    value: 'VIEW_EMPLOYEES'
+                },
+
+                {
+                    name: 'Update employee role',
+                    value: 'UPDATE_EMPLOYEES'
+                },
+
+                {
+                    name: 'EXIT',
+                    value: 'EXIT'
+                }
+            ]
+        }
+    ]).then(res => {
+        let choice = res.choice;
+
+        switch (choice) {
+            case "ADD_DEPARTMENT":
+                addDepartment();
+                break;
+            case "ADD_ROLE":
+                addRole();
+                break;
+            case "ADD_EMPLOYEE":
+                addEmployee();
+                break;
+            case "VIEW_DEPARTMENTS":
+                viewDepartment();
+                break;
+            case "VIEW_ROLES":
+                viewRoles();
+                break;
+            case "VIEW_EMPLOYEES":
+                viewEmployees();
+                break;
+            case "UPDATE_EMPLOYEES":
+                updateEmployee();
+                break;
+            case "EXIT":
+                EXIT();
+        }
+    }
+    )
 }
 
 function addDepartment() {
@@ -79,7 +111,7 @@ function addDepartment() {
         message: "Please enter Department name.",
         name: "departmentName"
     }).then(function (userInput) {
-        connection.query("INSERT INTO department (name) VALUES (?)",
+        connection.query("INSERT INTO department (title) VALUES (?)",
             [userInput.departmentName],
             function (err, res) {
                 if (err) throw err;
@@ -111,7 +143,7 @@ function addRole() {
         ])
         .then(function (userInput) {
             connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
-                [userInput.department_id, userInput.title, userInput.salary],
+                [userInput.title, userInput.salary, userInput.department_id],
                 function (err, res) {
                     if (err) throw err;
                     console.table(res);

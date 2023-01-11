@@ -6,7 +6,7 @@ USE employeesdb;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT,
-  title VARCHART(30) NOT NULL,
+  title VARCHAR(30) NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -19,11 +19,10 @@ CREATE TABLE role (
 );
 
 CREATE TABLE employee (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(45) NOT NULL,
   last_name VARCHAR(45) NOT NULL,
   role_id INT NOT NULL,
-  manager_id INT,
-  INDEX man_ind (manager_id),
+  manager_id INT UNSIGNED,
   PRIMARY KEY (id)
 );
